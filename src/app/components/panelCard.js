@@ -13,20 +13,22 @@ export default class PanelCard extends Component {
   }
 
   pushMsg(msg){
-
-    this.state.panelData.push(msg)
+    const {panelData} = this.state;
+    panelData.push(msg);
+    console.log(msg)
+    this.setState({panelData:panelData});
+    console.log(this.state)
   }
 
   summitPost(e){
-    console.log("hola",e)
-    if(e.key == 'ENTER'){
+    if(e.key == 'Enter'){
       this.pushMsg(e.target.value)
     }
   }
 
   renderPanelView(){
-    let views = this.state.panelData.map((data)=>{
-    return (  <div className="panel panel-default">
+    let views = this.state.panelData.map((data,key)=>{
+    return (  <div key={key} className="panel panel-default">
       <div className="panel-body">
         {data}
       </div>
@@ -44,7 +46,7 @@ export default class PanelCard extends Component {
 
   {this.renderPanelView()}
 
- <input type="text" onKeyPress={()=>{console.log("hola")}} className="form-control" placeholder="post" />
+ <input type="text" onKeyPress={this.summitPost} className="form-control" placeholder="post" />
       </div>
     );
   }
