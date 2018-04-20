@@ -11,7 +11,6 @@ var addBlock = (req,res)=>{
     block:blockchain.nextBlock({data:req.body.data})
   }));
   P2P.broadcast({message:P2P.getResponseForType({type:P2P.messageType.QUERY_LATEST})});
-  SocketServer.send(req.body.data)
   res.send(block);
 }
 
