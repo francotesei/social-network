@@ -1,6 +1,6 @@
 import Blockchain from './Blockchain';
 import {default as WebSocket} from 'ws';
-
+import SocketServer from './SocketServer';
 const MessageType = {
   QUERY_LATEST: 0,
   QUERY_ALL: 1,
