@@ -1,8 +1,8 @@
 
-
+const URL = "http://localhost:3002";
 var updateNetwork =  async function(data){
 
-  let response =  await fetch('http://localhost:3001/blocks',{
+  let response =  await fetch(URL+'/blocks',{
     method: 'post',
      headers: {
        'Accept': 'application/json, text/plain, */*',

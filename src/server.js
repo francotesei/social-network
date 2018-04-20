@@ -8,9 +8,10 @@ import {default as routes} from './routes/index';
 const http = require("http");
 const socketIo = require("socket.io");
 import P2P from './model/P2P';
+import SocketServer from './model/SocketServer';
 
-const http_port = process.env.HTTP_PORT || 3001;
-const p2p_port = process.env.P2P_PORT || 6001;
+const http_port = process.env.HTTP_PORT || 3002;
+const p2p_port = process.env.P2P_PORT || 6002;
 const discoverPeers = process.env.DISCOVER_PEERS || true;
 const masterNode = process.env.MASTER_NODE || false;
 const initialPeers = process.env.PEERS
@@ -51,19 +52,12 @@ var initDiscoveryPeers = () => {
 var initPollingServer = (app)=>{
   const server = http.createServer(app);
   const io = socketIo(server); // < Interesting!
-  io.on("connection", socket => {
-  console.log("New client connected"), setInterval(
-    () => getApiAndEmit(socket),
-    10000
-  );
+  io.on("connection", socket => { SocketServer.initConnection({socket:socket})
   socket.on("disconnect", () => console.log("Client disconnected"));
 });
   server.listen(http_port, () => console.log('Listening http on port: ' + http_port));
 }
 
-var getApiAndEmit = async (socket)=>{
-   socket.emit("FromAPI", {res:'hola'});
-}
 /*
 var saveNodeInfo = () => {
 
