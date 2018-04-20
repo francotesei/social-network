@@ -5,6 +5,8 @@ import {default as WebSocket} from 'ws';
 import {default as discovery} from 'dns-discovery';
 import {default as ip} from 'ip';
 import {default as routes} from './routes/index';
+const http = require("http");
+const socketIo = require("socket.io");
 import P2P from './model/P2P';
 
 const http_port = process.env.HTTP_PORT || 3001;
@@ -21,7 +23,8 @@ var initHttpServer = () => {
   app.use(bodyParser.json());
   app.use(morgan('combined'));
   routes(app);
-  app.listen(http_port, () => console.log('Listening http on port: ' + http_port));
+  initPollingServer(app);
+  //app.listen(http_port, () => console.log('Listening http on port: ' + http_port));
 }
 
 var initP2PServer = () => {
@@ -44,6 +47,23 @@ var initDiscoveryPeers = () => {
     console.log("New Peer Added");
   });
 };
+
+var initPollingServer = (app)=>{
+  const server = http.createServer(app);
+  const io = socketIo(server); // < Interesting!
+  io.on("connection", socket => {
+  console.log("New client connected"), setInterval(
+    () => getApiAndEmit(socket),
+    10000
+  );
+  socket.on("disconnect", () => console.log("Client disconnected"));
+});
+  server.listen(http_port, () => console.log('Listening http on port: ' + http_port));
+}
+
+var getApiAndEmit = async (socket)=>{
+   socket.emit("FromAPI", {res:'hola'});
+}
 /*
 var saveNodeInfo = () => {
 

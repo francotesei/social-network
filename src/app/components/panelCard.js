@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import socketIOClient from "socket.io-client";
 import {updateNetwork} from '../../core-utils/index';
 
 export default class PanelCard extends Component {
@@ -12,6 +13,11 @@ export default class PanelCard extends Component {
 
 
   }
+  componentDidMount() {
+   const { endpoint } = this.state;
+   const socket = socketIOClient('http://localhost:3001');
+   socket.on("FromAPI", data => this.setState({ response: data }));
+ }
 
   pushMsg(msg){
     const {panelData} = this.state;
@@ -40,6 +46,7 @@ export default class PanelCard extends Component {
 
   }
   render() {
+    console.log(this.state);
 
 
     return (
