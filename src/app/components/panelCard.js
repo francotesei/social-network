@@ -16,7 +16,7 @@ export default class PanelCard extends Component {
   componentDidMount() {
    const { endpoint } = this.state;
    const socket = socketIOClient(URL);
-   socket.on("FromAPI", data => this.setState({ response: data }));
+   socket.on("FromAPI", data => this.setState({ panelData: data.res }));
  }
 
   pushMsg(msg){

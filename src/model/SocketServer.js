@@ -7,6 +7,8 @@ class SocketServer {
   }
 
   send(data){
+    console.log(this.s.socket)
+    
      this.s.socket.emit("FromAPI", {res:data});
   }
 

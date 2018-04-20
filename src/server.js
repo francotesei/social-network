@@ -64,8 +64,9 @@ var saveNodeInfo = () => {
 }
 */
 
-P2P.connectToPeers({peers: initialPeers});
+
 initHttpServer();
+P2P.connectToPeers({peers: initialPeers});
 initP2PServer();
 if (discoverPeers)
   initDiscoveryPeers();
