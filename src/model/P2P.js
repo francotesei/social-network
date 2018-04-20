@@ -108,7 +108,7 @@ class P2P {
       if (latestBlockHeld.hash === latestBlockReceived.previousHash) {
         console.log("We can append the received block to our chain");
         Blockchain.chain.push(latestBlockReceived);
-          SocketServer.send(this.getLatestBlock().data)
+        SocketServer.send(Blockchain.getLatestBlock().data)
         this.broadcast({
           message: this.getResponseForType({type: MessageType.QUERY_LATEST})
         });
@@ -125,7 +125,7 @@ class P2P {
           this.broadcast({
             message: this.getResponseForType({type: MessageType.QUERY_LATEST})
           });
-          SocketServer.send(this.getLatestBlock().data)
+          SocketServer.send(Blockchain.getLatestBlock().data)
         }
         }
       } else {
