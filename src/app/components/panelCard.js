@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import {updateNetwork} from '../../core-utils/index';
 
 export default class PanelCard extends Component {
   constructor(props){
@@ -17,7 +18,8 @@ export default class PanelCard extends Component {
     panelData.push(msg);
     console.log(msg)
     this.setState({panelData:panelData});
-    console.log(this.state)
+    updateNetwork(panelData);
+
   }
 
   summitPost(e){

@@ -6,6 +6,7 @@ res.send(JSON.stringify(blockchain.chain));
 }
 
 var addBlock = (req,res)=>{
+  console.log("dataaa",req.body);
   let block = JSON.stringify(blockchain.addBlock({
     block:blockchain.nextBlock({data:req.body.data})
   }));

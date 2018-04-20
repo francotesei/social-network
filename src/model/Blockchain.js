@@ -1,4 +1,4 @@
-import * as CryptoJS from 'crypto-js'
+import * as CryptoJS from 'crypto-js';
 
 var calculateHash = (params) => {
   let {index, previoushash, timestamp, data} = params;
@@ -126,6 +126,15 @@ const genesisBlock = {
   data: data,
   hash: hash
 };
-var instance = new Blockchain(genesisBlock);
-Object.freeze(instance);
-export default instance;
+
+const BLOCKCHAIN_KEY = Symbol.for("My.blockchain");
+var globalSymbols = Object.getOwnPropertySymbols(global);
+var hasBlockchain = (globalSymbols.indexOf(BLOCKCHAIN_KEY) > -1);
+if (!hasBlockchain){
+  global[BLOCKCHAIN_KEY] = new Blockchain(genesisBlock);
+};
+
+var singleton = {instance:global[BLOCKCHAIN_KEY]};
+
+Object.freeze(singleton);
+export default singleton.instance;
