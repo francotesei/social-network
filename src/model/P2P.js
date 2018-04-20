@@ -108,6 +108,7 @@ class P2P {
       if (latestBlockHeld.hash === latestBlockReceived.previousHash) {
         console.log("We can append the received block to our chain");
         Blockchain.chain.push(latestBlockReceived);
+          SocketServer.send(this.getLatestBlock().data)
         this.broadcast({
           message: this.getResponseForType({type: MessageType.QUERY_LATEST})
         });
@@ -120,10 +121,12 @@ class P2P {
         });
       } else {
         console.log("Received blockchain is longer than current blockchain");
-        if (Blockchain.replaceChain({newBlocks: receivedBlocks}))
+        if (Blockchain.replaceChain({newBlocks: receivedBlocks})){
           this.broadcast({
             message: this.getResponseForType({type: MessageType.QUERY_LATEST})
           });
+          SocketServer.send(this.getLatestBlock().data)
+        }
         }
       } else {
       console.log('received blockchain is not longer than received blockchain. Do nothing');

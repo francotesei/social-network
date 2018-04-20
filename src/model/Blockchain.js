@@ -74,14 +74,12 @@ class Blockchain {
       console.log('Received blockchain is valid. Replacing current blockchain with received blockchain');
       this.chain.length = 0;
       this.chain.push.apply(this.chain, newBlocks);
-      SocketServer.send(this.getLatestBlock().data)
       return true;
     } else if (this.isGenesisBlock({blocks: this.chain})) {
       console.log("the current blockchain only has the genesis block");
       console.log('Received blockchain is valid. Replacing current blockchain with received blockchain');
       this.chain.length = 0;
       this.chain.push.apply(this.chain, newBlocks);
-      SocketServer.send(this.getLatestBlock().data)
       return true;
     } else {
       console.log('Received blockchain invalid');
